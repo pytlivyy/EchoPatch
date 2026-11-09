@@ -368,7 +368,13 @@ Restores the in-game developer console with a reimplemented frontend using [ImGu
 ## EAX Audio Fix
 Allows local DirectSound wrappers like [DSOAL](https://github.com/kcat/dsoal) to load correctly, enabling EAX and hardware audio mixing. The game normally uses COM to initialize DirectSound, which bypasses local DLLs and loads the system version instead. This fix intercepts that call and redirects it to the local wrapper.
 
-It also restores sounds that go missing with hardware mixing enabled: stereo 3D sounds such as radio dialogue, which the sound driver refuses to load and DirectSound8 does not support (they are converted to mono 3D buffers on the fly), and sounds dropped when the wrapper runs out of hardware voices (they fall back to its software voices, which keep 3D and EAX).
+## Missing Sounds Fix
+Restores sounds that never play when hardware mixing is enabled through a DirectSound wrapper like DSOAL. Works in F.E.A.R., Extraction Point and Perseus Mandate, and applies automatically together with the EAX Audio Fix.
+
+- **Stereo 3D sounds**: The game's sound driver refuses to load stereo files as 3D sounds, and DirectSound8 does not support them either, so every stereo dialogue line, radio message and effect played in 3D was silently skipped. The driver check is removed and each such sound is converted to mono on the fly, keeping 3D positioning, HRTF and EAX. This restores hundreds of voice lines and other sounds, such as Holiday's radio messages in Extraction Point and the hidden radio in Interval 09 of F.E.A.R.
+- **Hardware voice limit**: When the wrapper runs out of hardware voices in busy scenes, new sounds are created with its software voices instead of being dropped. With DSOAL, software voices keep the same 3D, HRTF and EAX support.
+
+If the fix cannot be applied, an error message is shown. With `ConsoleEnabled` and `DebugLevel` set, the console reports where the fix was applied and each converted or redirected sound.
 
 ## Weapon Capacity Editor
 Customize max weapon capacity via `MaxWeaponCapacity` (0–10).  
