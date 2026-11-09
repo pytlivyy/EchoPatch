@@ -368,6 +368,8 @@ Restores the in-game developer console with a reimplemented frontend using [ImGu
 ## EAX Audio Fix
 Allows local DirectSound wrappers like [DSOAL](https://github.com/kcat/dsoal) to load correctly, enabling EAX and hardware audio mixing. The game normally uses COM to initialize DirectSound, which bypasses local DLLs and loads the system version instead. This fix intercepts that call and redirects it to the local wrapper.
 
+It also restores sounds that go missing with hardware mixing enabled: stereo 3D sounds such as radio dialogue, which the sound driver refuses to load and DirectSound8 does not support (they are converted to mono 3D buffers on the fly), and sounds dropped when the wrapper runs out of hardware voices (they fall back to its software voices, which keep 3D and EAX).
+
 ## Weapon Capacity Editor
 Customize max weapon capacity via `MaxWeaponCapacity` (0–10).  
 Enable with `EnableCustomMaxWeaponCapacity = 1`.  

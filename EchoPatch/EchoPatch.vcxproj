@@ -175,6 +175,7 @@
     <ClInclude Include="..\src\Engine\Fixes\FixAspectRatioBlur.cpp" />
     <ClInclude Include="..\src\Engine\Fixes\FixDirectInputFps.cpp" />
     <ClInclude Include="..\src\Engine\Fixes\FixKeyboardInputLanguage.cpp" />
+    <ClInclude Include="..\src\Engine\Fixes\FixMissingSounds.cpp" />
     <ClInclude Include="..\src\Engine\Fixes\FixTranslucentRendering.cpp" />
     <ClInclude Include="..\src\Engine\Fixes\FixNvidiaShadowCorruption.cpp" />
     <ClInclude Include="..\src\Engine\Fixes\FixScriptedAnimationCrash.cpp" />

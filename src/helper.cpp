@@ -605,6 +605,11 @@ namespace DirectSoundHelper
 		}
 	}
 
+	// Defined in Engine/Fixes/FixMissingSounds.cpp
+	HRESULT FixedCreateSoundBuffer(IDirectSound8* pDS, LPCDSBUFFERDESC pcDSBufferDesc, LPDIRECTSOUNDBUFFER* ppDSBuffer, LPUNKNOWN pUnkOuter);
+	HRESULT FixedDuplicateSoundBuffer(IDirectSound8* pDS, LPDIRECTSOUNDBUFFER pDSBufferOriginal, LPDIRECTSOUNDBUFFER* ppDSBufferDuplicate);
+	void OnDirectSoundCreated();
+
 	class DirectSound8Proxy : public IDirectSound8
 	{
 	private:
@@ -655,7 +660,7 @@ namespace DirectSoundHelper
 
 		STDMETHOD(CreateSoundBuffer)(LPCDSBUFFERDESC pcDSBufferDesc, LPDIRECTSOUNDBUFFER* ppDSBuffer, LPUNKNOWN pUnkOuter)
 		{
-			return m_pReal->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
+			return FixedCreateSoundBuffer(m_pReal, pcDSBufferDesc, ppDSBuffer, pUnkOuter);
 		}
 
 		STDMETHOD(GetCaps)(LPDSCAPS pDSCaps)
@@ -665,7 +670,7 @@ namespace DirectSoundHelper
 
 		STDMETHOD(DuplicateSoundBuffer)(LPDIRECTSOUNDBUFFER pDSBufferOriginal, LPDIRECTSOUNDBUFFER* ppDSBufferDuplicate)
 		{
-			return m_pReal->DuplicateSoundBuffer(pDSBufferOriginal, ppDSBufferDuplicate);
+			return FixedDuplicateSoundBuffer(m_pReal, pDSBufferOriginal, ppDSBufferDuplicate);
 		}
 
 		STDMETHOD(SetCooperativeLevel)(HWND hwnd, DWORD dwLevel)
@@ -714,6 +719,8 @@ namespace DirectSoundHelper
 		// Only intercept DirectSound8 requests
 		if (IsEqualGUID(rclsid, CLSID_DirectSound8) && cachedDSCreate8 && pUnkOuter == nullptr && (riid == IID_IDirectSound8 || riid == IID_IDirectSound || riid == IID_IUnknown))
 		{
+			OnDirectSoundCreated();
+
 			IDirectSound8* pRealDS = nullptr;
 			HRESULT hr = SafeCallDSCreate(nullptr, &pRealDS);
 

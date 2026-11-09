@@ -191,6 +191,9 @@
     <ClInclude Include="..\src\Engine\Fixes\FixKeyboardInputLanguage.cpp">
       <Filter>Engine\Fixes</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Engine\Fixes\FixMissingSounds.cpp">
+      <Filter>Engine\Fixes</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\Engine\Fixes\FixTranslucentRendering.cpp">
       <Filter>Engine\Fixes</Filter>
     </ClInclude>

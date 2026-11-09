@@ -31,6 +31,7 @@
 #include "Engine/Extra/DisablePunkBuster.cpp"
 #include "Engine/Extra/ASILoader.cpp"
 #include "Engine/Fixes/DisableJoystick.cpp"
+#include "Engine/Fixes/FixMissingSounds.cpp"
 
 #include "Controller/Controller.cpp"
 
